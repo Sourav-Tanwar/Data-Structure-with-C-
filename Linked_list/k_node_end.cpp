@@ -1,0 +1,184 @@
+/*FIND THE Kth NODE FROM THE EBD OF SINGLY LINKED LIST*/
+
+/*METHOD 1*/
+
+#include<iostream>
+#include <bits/stdc++.h> 
+
+using namespace std;
+
+struct Node {
+    int data;
+    struct Node *next;
+};
+typedef struct Node node;
+
+/*METHOD 2*/
+void find_from_end(node *Head,int k)
+{
+    node *p,*q;
+    p = Head;
+    q = Head;
+    while(p)
+    { 
+        int count = 0;
+        q = p ->next;
+        while(q){
+            count++;
+            q = q->next;
+        }
+        if(count == k-1)
+        {
+            
+            cout<<p->data<<endl; 
+            break;       
+        }
+        if(count <k-1)
+        {
+            cout<<"Position does not exist in linked list"<<endl;
+            break;
+        }
+        p = p->next;
+    }
+}
+
+
+/*METHOD 1*/
+
+void getkthfromend(node *Head, int k){
+    node *p;
+    int n=0;
+    
+    p = Head;
+    while(p){
+        n++;
+        p =p->next;
+    }
+    cout<<n<<endl;
+    if(k<=n)
+    {
+        p = Head;
+        for(int i=1;i<n-k+1;i++){
+            p =p->next;
+        }
+        cout<<p->data<<endl;
+    }
+}
+
+int count1(node ***Head)
+{   
+    node* ptr;
+    int count =0;
+    ptr = **Head;
+    while (ptr) {
+       count++;
+       ptr = ptr->next;
+    }
+    cout<<endl;
+    return count;
+
+}
+
+void insert_node_SLL(node **Head, node* newnode, int pos)
+{
+    int k=1,c;
+    node *p,*q;
+    p =*Head;
+    c  = count1(&Head);
+    
+    if(pos ==1){
+        newnode->next =p;
+        *Head = newnode;
+    }
+    else{
+        if (c+1>=pos){
+        while(p !=NULL && k<pos)
+        {
+            k++;
+            q=p;
+            p =p->next;
+        }
+        if(p==NULL)
+        {
+            q ->next =newnode;
+            newnode -> next =NULL;
+        }
+        else
+        {
+            q->next =newnode;
+            newnode ->next =p;
+        }
+        }
+        else{
+            cout<<"position does not exist"<<endl;
+        }
+    }
+    
+    
+}
+
+int display(node **Head){ 
+   node* ptr;  
+   int count =0; 
+   ptr = *Head;
+   while (ptr) { 
+       count++;
+       cout<< ptr->data <<" ";
+       ptr = ptr->next;   
+   }  
+   cout<<endl;
+   return count;
+} 
+
+int main() { 
+    int position, data ,i;
+
+    cout<<"\n\t LINKED LIST OPERATIONS";
+    cout<<"\n\t--------------------------------";
+    cout<<"\n\t 1.INSERTION\n\t 2.FINDING FROM END BY METHOD 1\n\t 3.DISPLAY\n\t 4.EXIT\n\t 5.FINDING FROM END BY METHOD 2\n\t "<<endl;
+
+    node* Head,*newnode, *node1;
+    Head = NULL;
+    do
+    {
+        cout<<"Enter the operation : ";
+        cin>>i;
+        switch(i){
+            case 1:
+                cout<<"Enter the position in which you want to insert a node : ";
+                cin>>position;
+                newnode = (node*)malloc(sizeof(node));
+                cout<<"Enter the data : ";
+                cin>>data; 
+                newnode->data = data; 
+                newnode ->next = NULL; 
+                insert_node_SLL(&Head, newnode,position);
+                break;
+
+            case 3:int  y;
+                    y= display(&Head);
+                    cout<<"Total node : "<<y;
+                    cout<<endl;
+                    break;
+            case 4:
+                    cout<<"EXIT POINT";
+                    break;
+
+            case 2: cout<<"Enter the position from end : ";
+                    cin>>position;
+                    getkthfromend(Head, position);
+                    break;
+            case 5: cout<<"Enter the position from end : ";
+                    cin>>position;
+                    find_from_end(Head, position);
+                    break;
+
+            default:
+                   cout<<"\n\t Please Enter a Valid Choice(1/2/3/4)"<<endl;
+                    break;
+            
+
+        }
+    } while (i!=4);
+   return 0; 
+} 
